@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Givers Journey Wireframe / Fight for Sight</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #fafaf7;
+    --wire: #595955;
+    --wire-light: #d4d4cf;
+    --wire-bg: #efeeea;
+    --accent: #c8e000;
+    --annotation-bg: #ffffff;
+    --annotation-border: #1a1a1a;
+    --step-number-bg: #1a1a1a;
+    --step-number-fg: #c8e000;
+    --focus: #0066ff;
+    --new-component: #c44a1a;
+    --repurposed: #3a5cb8;
+    --conversion: #1a6b2b;
+    --conversion-bg: #eaf5ec;
+    --map-landing: #6b46c1;
+    --map-existing: #2f6fb0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  /* Skip link for keyboard users */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    top: 0;
+    z-index: 101;
+  }
+  a.skip-link:nth-of-type(2):focus {
+    top: 2.5rem;
+  }
+
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Page header */
+  .page-header {
+    padding: 24px 32px;
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper);
+  }
+  .page-header h1 {
+    margin: 0 0 4px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .page-header p {
+    margin: 0 0 8px 0;
+    color: var(--wire);
+    font-size: 0.875rem;
+  }
+  .page-header .source-link {
+    font-size: 0.8rem;
+  }
+  .page-header .source-link a {
+    color: var(--ink);
+  }
+
+  .scope-note {
+    background: #fff8e8;
+    border-bottom: 2px solid var(--ink);
+    padding: 14px 32px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .scope-note strong {
+    font-weight: 700;
+  }
+  .scope-note a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  /* Two-column layout */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 0;
+    min-height: calc(100vh - 130px);
+  }
+
+  /* Wireframe column */
+  .wireframe {
+    padding: 32px;
+    background:
+      repeating-linear-gradient(0deg, transparent 0, transparent 39px, var(--wire-light) 39px, var(--wire-light) 40px),
+      repeating-linear-gradient(90deg, transparent 0, transparent 39px, var(--wire-light) 39px, var(--wire-light) 40px),
+      var(--paper);
+  }
+
+  .wireframe-inner {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .wireframe-inner * {
+    min-width: 0;
+  }
+
+  .page-summary {
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.5;
+    max-width: 640px;
+    margin: 4px 2px 4px 2px;
+    padding: 10px 12px;
+    background: var(--annotation-bg);
+    border-left: 3px solid var(--wire-light);
+    border-radius: 2px;
+  }
+  .page-summary strong {
+    font-weight: 700;
+  }
+
+  .browser-chrome {
+    background: var(--annotation-bg);
+    border: 2px solid var(--ink);
+    border-radius: 8px 8px 0 0;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: none;
+  }
+  .browser-chrome::before {
+    content: '';
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--wire-light);
+    box-shadow: 16px 0 0 var(--wire-light), 32px 0 0 var(--wire-light);
+  }
+  .browser-chrome .url-bar {
+    margin-left: 60px;
+    flex: 1;
+    min-width: 0;
+    background: var(--wire-bg);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--wire);
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .page-canvas {
+    background: var(--annotation-bg);
+    border: 2px solid var(--ink);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 16px;
+  }
+
+  /* Step styling (equivalent to "zone" on the landing page wireframe) */
+  .step {
+    position: relative;
+    border: 2px solid var(--ink);
+    background: var(--annotation-bg);
+    padding: 20px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .step:focus-within,
+  .step:focus,
+  .step:hover {
+    background: #fffef0;
+  }
+  .step:target {
+    background: #fff8c4;
+    animation: pulse 1.2s ease-out;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(200, 224, 0, 0.6); }
+    100% { box-shadow: 0 0 0 12px rgba(200, 224, 0, 0); }
+  }
+
+  .step-number {
+    position: absolute;
+    top: -14px;
+    left: 16px;
+    background: var(--step-number-bg);
+    color: var(--step-number-fg);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  h2.step-label {
+    font-size: 0.7rem;
+    color: var(--wire);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+  }
+
+  .placeholder {
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    padding: 16px;
+    color: var(--wire);
+    font-size: 0.8rem;
+    border-radius: 2px;
+  }
+
+  .new-tag, .repurposed-tag {
+    display: inline-block;
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .new-tag { background: var(--new-component); }
+  .repurposed-tag { background: var(--repurposed); }
+
+  /* Entry recap (Step 1) */
+  .step-entry {
+    background: #fff8e8;
+    border-color: var(--new-component);
+  }
+  .entry-context {
+    font-size: 0.8rem;
+    color: var(--wire);
+    margin: 4px 0 16px 0;
+  }
+
+  /* Full landing page mock nested inside Screen 1 */
+  .page-nav {
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    color: var(--wire);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .page-nav span {
+    min-width: 0;
+  }
+  .page-nav span:nth-child(2) {
+    text-align: center;
+    line-height: 1.2;
+  }
+  .landing-page-mock {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .landing-zone {
+    position: relative;
+    border: 2px solid var(--ink);
+    background: var(--annotation-bg);
+    padding: 20px;
+    border-radius: 4px;
+  }
+  .landing-zone-number {
+    position: absolute;
+    top: -14px;
+    left: 16px;
+    background: var(--step-number-bg);
+    color: var(--step-number-fg);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+  h3.landing-zone-label {
+    font-size: 0.7rem;
+    color: var(--wire);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+  }
+
+  /* Zone 1: hero */
+  .landing-hero {
+    min-height: 180px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    align-items: stretch;
+  }
+  .landing-hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+  .landing-hero-stats {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* Zone 2: audience selector */
+  .landing-zone-selector {
+    background: #fff8e8;
+    border-color: var(--new-component);
+  }
+  .landing-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .landing-selector-card {
+    background: var(--annotation-bg);
+    border: 1.5px solid var(--ink);
+    padding: 14px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-radius: 4px;
+  }
+  .landing-selector-card.selected {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .landing-card-icon {
+    width: 24px;
+    height: 24px;
+    background: var(--wire-light);
+    border-radius: 50%;
+  }
+  .landing-card-title { height: 10px; background: var(--ink); width: 75%; border-radius: 2px; }
+  .landing-card-desc { height: 6px; background: var(--wire-light); width: 90%; border-radius: 2px; }
+
+  /* Zones 3 and 4: content zones */
+  .landing-content-zone {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .landing-content-zone-reverse {
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  /* Zone 5: donate widget */
+  .landing-zone-donate {
+    background: #eef1fb;
+    border-color: var(--repurposed);
+  }
+
+  /* Journey connector arrows */
+  .connector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+  }
+  .connector::before {
+    content: '';
+    width: 2px;
+    height: 100%;
+    background: var(--wire-light);
+  }
+  .connector-label {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--wire-light);
+    color: var(--wire);
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Fork into three parallel paths */
+  .fork-heading {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--wire);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 4px 0;
+  }
+  .journey-fork {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .path-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    container-type: inline-size;
+    container-name: path;
+  }
+  p.path-label {
+    font-size: 0.7rem;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 6px;
+    margin: 0;
+  }
+
+  /* Journey summary map, shown at the top of the page */
+  .journey-map-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 2px dashed var(--wire-light);
+  }
+  .journey-map-section h2 {
+    margin: 0 0 6px 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .journey-map-intro {
+    margin: 0 0 16px 0;
+    font-size: 0.8rem;
+    color: var(--wire);
+    max-width: 640px;
+  }
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0 0 20px 0;
+    list-style: none;
+  }
+  .map-legend-item {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: white;
+  }
+  .map-legend-landing { background: var(--map-landing); }
+  .map-legend-new { background: var(--new-component); }
+  .map-legend-existing { background: var(--map-existing); }
+  .map-legend-conversion {
+    background: var(--conversion-bg);
+    color: #16401f;
+    border: 1px solid var(--conversion);
+  }
+  .map-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .map-node {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+  }
+  .map-node:hover,
+  .map-node:focus-visible {
+    text-decoration: underline;
+  }
+  .map-node-landing { background: var(--map-landing); }
+  .map-node-new { background: var(--new-component); }
+  .map-node-existing { background: var(--map-existing); }
+  .map-node-conversion {
+    background: var(--conversion-bg);
+    color: #16401f;
+    border: 2px solid var(--conversion);
+    font-weight: 700;
+  }
+  .map-arrow {
+    color: var(--wire);
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .map-fork {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 640px;
+    align-items: start;
+  }
+  .map-path-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .map-path-col:first-child .map-arrow-merge { align-self: flex-end; }
+  .map-path-col:last-child .map-arrow-merge { align-self: flex-start; }
+  .map-conversions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .map-branch-label {
+    margin: 2px 0 4px 0;
+    font-size: 0.7rem;
+    color: var(--wire);
+    text-align: center;
+    font-style: italic;
+  }
+  .map-end-label {
+    margin: 2px 0 0 0;
+    font-size: 0.65rem;
+    color: var(--wire);
+    text-align: center;
+    font-style: italic;
+  }
+  .map-arrow-merge {
+    font-size: 1.1rem;
+  }
+  .map-arrow-merge .arrow-narrow {
+    display: none;
+  }
+
+  /* Generic content block used across several step types */
+  .content-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .content-headline { height: 16px; background: var(--ink); width: 70%; border-radius: 2px; }
+  .content-line { height: 8px; background: var(--wire-light); border-radius: 2px; }
+  .content-line.w95 { width: 95%; }
+  .content-line.w90 { width: 90%; }
+  .content-line.w85 { width: 85%; }
+  .content-line.w80 { width: 80%; }
+  .content-line.w70 { width: 70%; }
+  .content-line.w65 { width: 65%; }
+  .content-line.w60 { width: 60%; }
+  .content-line.para-start { margin-top: 10px; }
+  .content-cta {
+    margin-top: 6px;
+    width: 130px;
+    height: 32px;
+    background: var(--annotation-bg);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--wire);
+    text-align: center;
+  }
+  .inline-donate {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--wire-light);
+  }
+
+  /* Step 2: Condition-filtered impact stories (new) */
+  .step-condition {
+    background: #fff8e8;
+    border-color: var(--new-component);
+  }
+  .condition-filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .condition-chip {
+    background: var(--annotation-bg);
+    border: 1.5px solid var(--ink);
+    padding: 6px 12px;
+    font-size: 0.7rem;
+    border-radius: 14px;
+  }
+  .condition-chip.selected {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .condition-chip-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-style: dashed;
+    color: var(--wire);
+    background: var(--wire-bg);
+  }
+  .chevron-icon {
+    color: var(--wire);
+    flex-shrink: 0;
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .story-card {
+    border: 1.5px solid var(--wire-light);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .story-card-image {
+    aspect-ratio: 4/3;
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+  }
+  .story-card-title { height: 8px; background: var(--ink); width: 90%; border-radius: 2px; }
+  .story-card-desc { height: 6px; background: var(--wire-light); width: 70%; border-radius: 2px; }
+
+  /* Step 3: Stats page */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .stat-block {
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+  .stat-number { height: 20px; background: var(--ink); width: 50%; border-radius: 2px; }
+  .stat-label { height: 8px; background: var(--wire-light); width: 80%; border-radius: 2px; }
+
+  /* Icon-based stat: "2 in every 5 people" shown as a row of person icons */
+  .stat-block-icons {
+    justify-content: flex-start;
+  }
+  .person-icon-row {
+    display: flex;
+    gap: 5px;
+  }
+  .person-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .person-icon.is-affected { fill: var(--ink); }
+  .person-icon.is-unaffected { fill: var(--wire-light); }
+  .stat-icon-label {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .chart-panel {
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    border-radius: 2px;
+    padding: 14px;
+  }
+  .chart-panel-label {
+    font-size: 0.65rem;
+    color: var(--wire);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 90px;
+  }
+  .bar {
+    flex: 1;
+    background: var(--ink);
+    border-radius: 2px 2px 0 0;
+  }
+  .donut-chart {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(var(--ink) 0deg 130deg, var(--wire-light) 130deg 360deg);
+    position: relative;
+  }
+  .donut-chart::after {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    background: var(--annotation-bg);
+    border-radius: 50%;
+  }
+
+  /* Step 4: Donor story */
+  .step-donor {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .step-donor > .site-footer {
+    grid-column: 1 / -1;
+  }
+  .step-donor > .page-nav {
+    grid-column: 1 / -1;
+  }
+  .content-image {
+    aspect-ratio: 4/3;
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wire);
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 8px;
+  }
+
+  /* Branch steps (Lottery / In Memory) */
+  .branch-note {
+    font-size: 0.75rem;
+    color: var(--wire);
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    border-radius: 2px;
+    padding: 8px 10px;
+    margin-top: 8px;
+  }
+
+  /* Strategy rationale ("Addresses:") pulled from the Impact Hub Optimisation deck,
+     shown under each landing page zone so the goal behind each zone is visible
+     alongside the layout, not just in a separate document. */
+  .zone-goals {
+    list-style: none;
+    margin: 10px 0 0 0;
+    padding: 8px 10px;
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    border-radius: 2px;
+    font-size: 0.7rem;
+    color: var(--wire);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .zone-goals-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 2px 0;
+  }
+  .zone-goals .goal-type {
+    font-weight: 700;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+
+  /* Step 7: Contextual donate widget (repurposed) */
+  .step-donate {
+    background: #eef1fb;
+    border-color: var(--repurposed);
+  }
+  .donate-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .donate-amounts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .amount-chip {
+    background: var(--annotation-bg);
+    border: 1.5px solid var(--ink);
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    border-radius: 2px;
+  }
+  .amount-chip.selected {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .impact-statement {
+    height: 10px;
+    background: var(--wire);
+    width: 90%;
+    margin-top: 12px;
+    border-radius: 2px;
+  }
+  .impact-statement.short { width: 65%; }
+  .donate-button {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    border-radius: 2px;
+  }
+
+  /* Conversion endpoints */
+  .conversion-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .conversion-endpoint {
+    background: var(--conversion-bg);
+    border: 2px solid var(--conversion);
+    border-radius: 20px;
+    padding: 12px 22px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #16401f;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  .conversion-endpoint .sub {
+    display: block;
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: var(--wire);
+    margin-top: 2px;
+  }
+
+  /* Footer placeholder */
+  .site-footer {
+    background: var(--wire-bg);
+    border: 1px dashed var(--wire);
+    padding: 24px;
+    text-align: center;
+    color: var(--wire);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+    margin-top: 16px;
+  }
+
+  /* Reusable page heading + intro paragraph, shown at the top of each screen's mocked-up content */
+  .page-lead {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .page-heading-bar {
+    height: 22px;
+    background: var(--ink);
+    width: 60%;
+    border-radius: 2px;
+  }
+
+  /* Annotations column */
+  .annotations {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 28px;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+  }
+  .annotations h2 {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+  .annotations > p {
+    margin: 0 0 20px 0;
+    font-size: 0.8rem;
+    color: #ccc;
+    line-height: 1.5;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 24px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .legend-item {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .legend-new { background: var(--new-component); color: white; }
+  .legend-repurposed { background: var(--repurposed); color: white; }
+  .legend-existing { background: #444; color: var(--accent); }
+  .legend-conversion { background: var(--conversion-bg); color: #16401f; border: 1px solid var(--conversion); }
+
+  .annotation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .annotation {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 16px;
+  }
+  .annotation a {
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .annotation h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .annotation a:hover,
+  .annotation a:focus-visible {
+    color: var(--accent);
+  }
+  .annotation-number {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--ink);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .annotation-body {
+    font-size: 0.8rem;
+    color: #d4d4cf;
+    line-height: 1.55;
+    margin: 8px 0 0 0;
+  }
+  .annotation-meta {
+    display: inline-block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .meta-new { background: var(--new-component); color: white; }
+  .meta-repurposed { background: var(--repurposed); color: white; }
+  .meta-existing { background: #444; color: var(--accent); }
+
+  /* Responsive */
+  @media (max-width: 1150px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 300px;
+    }
+  }
+
+  /* Stack fork paths and nested grids when the wireframe column is narrow */
+  @media (max-width: 1200px) {
+    .journey-fork {
+      grid-template-columns: 1fr;
+    }
+    .story-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats-row,
+    .chart-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Narrow branch columns: keep nav readable when three paths sit side by side */
+  @container path (max-width: 300px) {
+    .page-nav {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      padding: 10px 10px;
+      gap: 6px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .wireframe-inner {
+      max-width: 100%;
+    }
+    .annotations {
+      position: static;
+      max-height: none;
+    }
+    .journey-fork {
+      grid-template-columns: 1fr;
+    }
+    .map-fork {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+    }
+    .map-arrow-merge .arrow-wide {
+      display: none;
+    }
+    .map-arrow-merge .arrow-narrow {
+      display: inline;
+    }
+    .map-path-col:first-child .map-arrow-merge,
+    .map-path-col:last-child .map-arrow-merge {
+      align-self: center;
+    }
+    .story-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .step-donor,
+    .donate-grid,
+    .stats-row,
+    .chart-row {
+      grid-template-columns: 1fr;
+    }
+    .landing-hero,
+    .landing-content-zone,
+    .landing-content-zone-reverse {
+      grid-template-columns: 1fr;
+    }
+    .landing-selector-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .browser-chrome .url-bar {
+      margin-left: 40px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-header,
+    .scope-note,
+    .wireframe {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .annotations {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .story-grid,
+    .landing-selector-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-wireframe" class="skip-link">Skip to wireframe</a>
+<a href="#annotations-heading" class="skip-link">Skip to annotations</a>
+
+<header class="page-header">
+  <h1>Personal Givers Journey / Wireframe</h1>
+  <p>Fight for Sight · Cluster A, Individual Givers, In Memory Donors and Lottery Players · Donortype fit: Protectors and Believers</p>
+  <p class="source-link">Journey begins on the <a href="https://elliebarrett-yoyodesign.github.io/Wireframes/">Impact Hub landing page wireframe</a>, at the audience selector cards in Zone 2.</p>
+</header>
+
+<p class="scope-note">
+  <strong>This page shows one journey of 6 recommended.</strong>
+  See the full set of Impact Hub user journeys on the
+  <a href="https://www.figma.com/board/6HnCQKIYp6I1iAsVrX53lr/Impact-Hub---Recommended-User-Journeys?node-id=0-1&t=mBFvGnWvTmmVY9gt-1" target="_blank" rel="noopener">Figma board<span class="sr-only"> (opens in new tab)</span></a>.
+</p>
+
+<div class="layout">
+
+  <main id="main-wireframe" class="wireframe" aria-label="Wireframe of the Personal Givers journey" tabindex="-1">
+   <div class="wireframe-inner">
+
+    <p class="sr-only">This page shows a wireframe of the Personal Givers user journey as a sequence of numbered screens, followed by screen annotations. The journey starts at Screen 1 and forks into three paths after the audience selector. Use the skip links at the top to jump to the wireframe or annotations.</p>
+
+    <section class="journey-map-section" aria-labelledby="journey-map-heading">
+      <h2 id="journey-map-heading">Journey map</h2>
+      <p class="journey-map-intro">A copy of the journey map agreed in the workshop, for quick orientation before the detailed screens below. Select a page name to jump straight to it. These colours match the original journey map, not the New / Repurposed / Existing key used further down.</p>
+
+      <ul class="map-legend" aria-label="Journey map colour key">
+        <li class="map-legend-item map-legend-landing">Landing page<span class="sr-only"> (landing page)</span></li>
+        <li class="map-legend-item map-legend-new">New component<span class="sr-only"> (new component)</span></li>
+        <li class="map-legend-item map-legend-existing">Existing page<span class="sr-only"> (existing page)</span></li>
+        <li class="map-legend-item map-legend-conversion">Conversion point<span class="sr-only"> (conversion point)</span></li>
+      </ul>
+
+      <nav class="map-diagram" aria-label="Personal Givers journey, quick navigation">
+        <a class="map-node map-node-landing" href="#step-1">Landing page, audience selector<span class="sr-only"> (landing page)</span></a>
+
+        <span class="map-arrow" aria-hidden="true">↓</span>
+        <p class="map-branch-label">Splits into three paths here</p>
+
+        <div class="map-fork">
+          <div class="map-path-col">
+            <a class="map-node map-node-new" href="#step-2">Condition-filtered stories<span class="sr-only"> (new component)</span></a>
+            <span class="map-arrow" aria-hidden="true">↓</span>
+            <a class="map-node map-node-existing" href="#step-3">Scale of VI in the UK<span class="sr-only"> (existing page)</span></a>
+            <span class="map-arrow" aria-hidden="true">↓</span>
+            <a class="map-node map-node-existing" href="#step-4">Donor story<span class="sr-only"> (existing page)</span></a>
+            <span class="map-arrow map-arrow-merge" aria-hidden="true"><span class="arrow-wide">↘</span><span class="arrow-narrow">↓</span></span>
+          </div>
+          <div class="map-path-col">
+            <a class="map-node map-node-existing" href="#step-5">Lottery players branch<span class="sr-only"> (existing page)</span></a>
+            <span class="map-arrow" aria-hidden="true">↓</span>
+            <span class="map-node map-node-conversion">LOTTERY<span class="sr-only"> (conversion point)</span></span>
+            <p class="map-end-label">Path ends here</p>
+          </div>
+          <div class="map-path-col">
+            <a class="map-node map-node-existing" href="#step-6">In Memory branch<span class="sr-only"> (existing page)</span></a>
+            <span class="map-arrow map-arrow-merge" aria-hidden="true"><span class="arrow-wide">↙</span><span class="arrow-narrow">↓</span></span>
+          </div>
+        </div>
+
+        <p class="map-branch-label">Condition-filtered stories and In Memory paths merge here, Lottery path does not</p>
+
+        <a class="map-node map-node-new" href="#step-7">Contextual donate widget<span class="sr-only"> (new component)</span></a>
+
+        <span class="map-arrow" aria-hidden="true">↓</span>
+
+        <div class="map-conversions">
+          <span class="map-node map-node-conversion">DONATE<span class="sr-only"> (conversion point)</span></span>
+          <span class="map-node map-node-conversion">VISION CIRCLE<span class="sr-only"> (conversion point)</span></span>
+        </div>
+      </nav>
+    </section>
+
+    <!-- STEP 1: Entry point -->
+    <p class="page-summary"><strong>What it does:</strong> the Impact Hub landing page every visitor arrives at first. It orients them with an urgency-led hero stat, then lets them self-select their reason for visiting via the Zone 2 cards. <strong>Content:</strong> hero headline and stats, six audience-routing cards, science and social-change teasers, and a contextual donate widget — all already live; this journey follows the "understand the impact of my gift" card.</p>
+    <div class="browser-chrome" aria-hidden="true">
+      <span class="url-bar">fightforsight.org.uk/our-impact</span>
+    </div>
+    <div class="page-canvas">
+      <section id="step-1" tabindex="-1" class="step step-entry" aria-labelledby="step-1-title" aria-describedby="annotation-1">
+        <span class="step-number" aria-hidden="true">1</span>
+        <h2 class="step-label" id="step-1-title">Screen 1 · Impact Hub landing page, audience selector</h2>
+        <p class="entry-context">This journey starts when a visitor selects the card "I want to understand the impact of my gift" in Zone 2 below. The landing page shown here is already built, see the linked wireframe in the page header for the full annotated version.</p>
+
+        <div class="page-nav" aria-hidden="true">
+          <span>Logo</span>
+          <span>Main navigation</span>
+          <span>Donate</span>
+        </div>
+
+        <div class="landing-page-mock">
+
+          <!-- Zone 1: Hero -->
+          <div class="landing-zone landing-hero" role="group" aria-labelledby="landing-zone-1-title">
+            <span class="landing-zone-number" aria-hidden="true">1</span>
+            <div class="landing-hero-text">
+              <h3 class="landing-zone-label" id="landing-zone-1-title">Zone 1 · Hero with urgency message</h3>
+              <div class="page-heading-bar" aria-hidden="true"></div>
+              <div class="content-line w90" aria-hidden="true"></div>
+              <div class="content-line w60" aria-hidden="true"></div>
+              <span class="sr-only">Placeholder hero headline followed by a short supporting paragraph.</span>
+              <ul class="zone-goals">
+                <li class="zone-goals-title">Addresses (from Impact Hub Optimisation deck):</li>
+                <li><span class="goal-type">Structural:</span>Improve onward journeys per audience</li>
+                <li><span class="goal-type">Content:</span>Leverage urgent need to donate</li>
+                <li><span class="goal-type">Content:</span>Showcase what's unique about the F4S brand</li>
+              </ul>
+            </div>
+            <div class="landing-hero-stats" aria-hidden="true">
+              <div class="stat-block">
+                <div class="stat-number"></div>
+                <div class="stat-label"></div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-number"></div>
+                <div class="stat-label"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zone 2: Audience selector cards -->
+          <div class="landing-zone landing-zone-selector" role="group" aria-labelledby="landing-zone-2-title">
+            <span class="landing-zone-number" aria-hidden="true">2</span>
+            <h3 class="landing-zone-label" id="landing-zone-2-title">
+              Zone 2 · Audience selector cards
+              <span class="new-tag">New</span>
+            </h3>
+            <div class="landing-selector-grid" role="list" aria-label="Audience selector card placeholders">
+              <div class="landing-selector-card selected" role="listitem">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+                <span class="sr-only">Selected card, reads "I want to understand the impact of my gift". This journey follows this card.</span>
+              </div>
+              <div class="landing-selector-card" role="listitem" aria-label="Selector card placeholder">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="landing-selector-card" role="listitem" aria-label="Selector card placeholder">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="landing-selector-card" role="listitem" aria-label="Selector card placeholder">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="landing-selector-card" role="listitem" aria-label="Selector card placeholder">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="landing-selector-card" role="listitem" aria-label="Selector card placeholder">
+                <div class="landing-card-icon" aria-hidden="true"></div>
+                <div class="landing-card-title" aria-hidden="true"></div>
+                <div class="landing-card-desc" aria-hidden="true"></div>
+              </div>
+            </div>
+            <ul class="zone-goals">
+              <li class="zone-goals-title">Addresses (from Impact Hub Optimisation deck):</li>
+              <li><span class="goal-type">Structural:</span>Improve onward journeys for each audience</li>
+              <li><span class="goal-type">Structural:</span>Ensure each audience sees relevant impact information</li>
+              <li><span class="goal-type">Content:</span>Show where money goes regardless of gift size</li>
+            </ul>
+          </div>
+
+          <!-- Zone 3: Science we fund -->
+          <div class="landing-zone landing-content-zone" role="group" aria-labelledby="landing-zone-3-title">
+            <span class="landing-zone-number" aria-hidden="true">3</span>
+            <div class="content-image" aria-hidden="true">[ Image of science we fund ]</div>
+            <div class="content-body">
+              <h3 class="landing-zone-label" id="landing-zone-3-title">Zone 3 · Science we fund</h3>
+              <div class="page-heading-bar" aria-hidden="true"></div>
+              <div class="content-line w95" aria-hidden="true"></div>
+              <div class="content-line w85" aria-hidden="true"></div>
+              <div class="content-line w70" aria-hidden="true"></div>
+              <div class="content-cta">Read more</div>
+              <ul class="zone-goals">
+                <li class="zone-goals-title">Addresses (from Impact Hub Optimisation deck):</li>
+                <li><span class="goal-type">Structural:</span>Optimise for SEO, AEO, GEO (condition-specific pages are high-value search targets)</li>
+                <li><span class="goal-type">Content:</span>Evidence of scientific research</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Zone 4: Social change we fund -->
+          <div class="landing-zone landing-content-zone landing-content-zone-reverse" role="group" aria-labelledby="landing-zone-4-title">
+            <span class="landing-zone-number" aria-hidden="true">4</span>
+            <div class="content-body">
+              <h3 class="landing-zone-label" id="landing-zone-4-title">Zone 4 · Social change we fund</h3>
+              <div class="page-heading-bar" aria-hidden="true"></div>
+              <div class="content-line w92" aria-hidden="true"></div>
+              <div class="content-line w80" aria-hidden="true"></div>
+              <div class="content-line w65" aria-hidden="true"></div>
+              <div class="content-cta">Read more</div>
+              <ul class="zone-goals">
+                <li class="zone-goals-title">Addresses (from Impact Hub Optimisation deck):</li>
+                <li><span class="goal-type">Content:</span>Evidence of social change</li>
+                <li><span class="goal-type">Content:</span>Stories of impact</li>
+                <li><span class="goal-type">Structural:</span>Improve SEO for thematic/social topics</li>
+              </ul>
+            </div>
+            <div class="content-image" aria-hidden="true">[ Image of social change ]</div>
+          </div>
+
+          <!-- Zone 5: Contextual donate widget -->
+          <div class="landing-zone landing-zone-donate" role="group" aria-labelledby="landing-zone-5-title">
+            <span class="landing-zone-number" aria-hidden="true">5</span>
+            <h3 class="landing-zone-label" id="landing-zone-5-title">
+              Zone 5 · Contextual donate widget
+              <span class="repurposed-tag">Repurposed</span>
+            </h3>
+            <div class="donate-grid">
+              <div>
+                <div class="donate-amounts" role="list" aria-label="Donation amount options">
+                  <div class="amount-chip" role="listitem">£10</div>
+                  <div class="amount-chip selected" role="listitem" aria-label="£25, currently selected">£25</div>
+                  <div class="amount-chip" role="listitem">£50</div>
+                  <div class="amount-chip" role="listitem">Other</div>
+                </div>
+                <div class="impact-statement" aria-hidden="true"></div>
+                <div class="impact-statement short" aria-hidden="true"></div>
+                <span class="sr-only">Impact statement showing what the selected amount funds.</span>
+              </div>
+              <div class="donate-button">DONATE</div>
+            </div>
+            <ul class="zone-goals">
+              <li class="zone-goals-title">Addresses (from Impact Hub Optimisation deck):</li>
+              <li><span class="goal-type">Content:</span>Show where money goes regardless of amount</li>
+              <li><span class="goal-type">Content:</span>Leverage urgent need to donate</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="site-footer" aria-hidden="true">Page footer</div>
+      </section>
+    </div>
+
+    <div class="connector" aria-hidden="true"><span class="connector-label">journey forks</span></div>
+    <p class="fork-heading" id="fork-heading">The journey splits into three paths depending on donor type</p>
+
+    <div class="journey-fork" role="group" aria-labelledby="fork-heading">
+
+      <!-- PATH A: Main path -->
+      <div class="path-column">
+        <p class="path-label">Path A · Individual givers</p>
+
+        <p class="page-summary"><strong>What it does:</strong> a new page letting visitors browse impact stories filtered by eye condition, mirroring the site's existing A-Z. <strong>Content:</strong> condition filter chips (Macular degeneration, Glaucoma, Retinitis pigmentosa, plus an A-Z link), and a grid of story cards each with an image, title and short summary for that condition.</p>
+        <div class="browser-chrome" aria-hidden="true">
+          <span class="url-bar">fightforsight.org.uk/stories?condition=all</span>
+        </div>
+        <div class="page-canvas">
+          <section id="step-2" tabindex="-1" class="step step-condition" aria-labelledby="step-2-title" aria-describedby="annotation-2">
+            <span class="step-number" aria-hidden="true">2</span>
+            <h2 class="step-label" id="step-2-title">
+              Screen 2 · Condition-filtered impact stories
+              <span class="new-tag">New</span>
+            </h2>
+            <div class="page-nav" aria-hidden="true">
+              <span>Logo</span>
+              <span>Main navigation</span>
+              <span>Donate</span>
+            </div>
+            <div class="page-lead" aria-hidden="true">
+              <div class="page-heading-bar"></div>
+              <div class="content-line w90"></div>
+              <div class="content-line w70"></div>
+            </div>
+            <span class="sr-only">Placeholder page heading and introductory paragraph for the condition-filtered impact stories page.</span>
+            <div class="condition-filter-row" role="list" aria-label="Eye condition filter options">
+              <span class="condition-chip selected" role="listitem" aria-label="Macular degeneration, currently selected">Macular degeneration</span>
+              <span class="condition-chip" role="listitem">Glaucoma</span>
+              <span class="condition-chip" role="listitem">Retinitis pigmentosa</span>
+              <span class="condition-chip" role="listitem">A to Z</span>
+              <span class="condition-chip condition-chip-more" role="listitem" aria-label="More conditions available">
+                More
+                <svg class="chevron-icon" aria-hidden="true" viewBox="0 0 10 6" width="10" height="6">
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+            <div class="story-grid" role="list" aria-label="Impact story placeholders filtered by condition">
+              <div class="story-card" role="listitem" aria-label="Impact story placeholder 1">
+                <div class="story-card-image" aria-hidden="true"></div>
+                <div class="story-card-title" aria-hidden="true"></div>
+                <div class="story-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="story-card" role="listitem" aria-label="Impact story placeholder 2">
+                <div class="story-card-image" aria-hidden="true"></div>
+                <div class="story-card-title" aria-hidden="true"></div>
+                <div class="story-card-desc" aria-hidden="true"></div>
+              </div>
+              <div class="story-card" role="listitem" aria-label="Impact story placeholder 3">
+                <div class="story-card-image" aria-hidden="true"></div>
+                <div class="story-card-title" aria-hidden="true"></div>
+                <div class="story-card-desc" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="site-footer" aria-hidden="true">Page footer</div>
+          </section>
+        </div>
+
+        <div class="connector" aria-hidden="true"></div>
+
+        <p class="page-summary"><strong>What it does:</strong> the existing stats page showing the scale of vision impairment in the UK, building the case for the donor story that follows. <strong>Content:</strong> headline national statistics, a short urgency-led explainer, a bar chart of cases by age group, a donut chart of the conditions breakdown, and the "2 in every 5" icon-based stat.</p>
+        <div class="browser-chrome" aria-hidden="true">
+          <span class="url-bar">fightforsight.org.uk/stats</span>
+        </div>
+        <div class="page-canvas">
+          <section id="step-3" tabindex="-1" class="step" aria-labelledby="step-3-title" aria-describedby="annotation-3">
+            <span class="step-number" aria-hidden="true">3</span>
+            <h2 class="step-label" id="step-3-title">Screen 3 · Scale of VI in the UK, stats page</h2>
+            <div class="page-nav" aria-hidden="true">
+              <span>Logo</span>
+              <span>Main navigation</span>
+              <span>Donate</span>
+            </div>
+            <div class="page-lead" aria-hidden="true">
+              <div class="page-heading-bar"></div>
+              <div class="content-line w90"></div>
+              <div class="content-line w70"></div>
+            </div>
+            <div class="stats-row" aria-hidden="true">
+              <div class="stat-block">
+                <div class="stat-number"></div>
+                <div class="stat-label"></div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-number"></div>
+                <div class="stat-label"></div>
+              </div>
+              <div class="stat-block stat-block-icons">
+                <div class="person-icon-row">
+                  <svg class="person-icon is-affected" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                  <svg class="person-icon is-affected" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                  <svg class="person-icon is-unaffected" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                  <svg class="person-icon is-unaffected" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                  <svg class="person-icon is-unaffected" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+                </div>
+                <p class="stat-icon-label">2 in every 5 people in the UK will be affected by sight loss in their lifetime</p>
+              </div>
+            </div>
+            <div class="chart-row" aria-hidden="true">
+              <div class="chart-panel">
+                <div class="chart-panel-label">Cases by age group</div>
+                <div class="bar-chart">
+                  <div class="bar" style="height: 35%"></div>
+                  <div class="bar" style="height: 55%"></div>
+                  <div class="bar" style="height: 70%"></div>
+                  <div class="bar" style="height: 90%"></div>
+                  <div class="bar" style="height: 60%"></div>
+                </div>
+              </div>
+              <div class="chart-panel">
+                <div class="chart-panel-label">Conditions breakdown</div>
+                <div class="donut-chart"></div>
+              </div>
+            </div>
+            <span class="sr-only">Placeholder page heading, introductory paragraph and statistics on the scale of vision impairment in the UK, with an urgency message, a stat reading "2 in every 5 people in the UK will be affected by sight loss in their lifetime" shown using a row of person icons, a bar chart showing cases by age group, and a donut chart showing the breakdown of conditions.</span>
+            <div class="site-footer" aria-hidden="true">Page footer</div>
+          </section>
+        </div>
+
+        <div class="connector" aria-hidden="true"></div>
+
+        <p class="page-summary"><strong>What it does:</strong> an existing named donor case study, linked to whichever condition the visitor has been browsing, giving a direct personal connection before they're asked to give. <strong>Content:</strong> a photo of the donor, a two-paragraph story about their connection to the cause and the impact of their gift, a link back to the relevant condition, and an inline donate prompt.</p>
+        <div class="browser-chrome" aria-hidden="true">
+          <span class="url-bar">fightforsight.org.uk/stories/donor-case-study</span>
+        </div>
+        <div class="page-canvas">
+          <section id="step-4" tabindex="-1" class="step step-donor" aria-labelledby="step-4-title" aria-describedby="annotation-4">
+            <span class="step-number" aria-hidden="true">4</span>
+            <div class="page-nav" aria-hidden="true">
+              <span>Logo</span>
+              <span>Main navigation</span>
+              <span>Donate</span>
+            </div>
+            <div class="content-image" aria-hidden="true">[ Image of named donor case study ]</div>
+            <div class="content-body">
+              <h2 class="step-label" id="step-4-title">Screen 4 · Donor story, named case study</h2>
+              <div class="content-headline" aria-hidden="true"></div>
+              <div class="content-line w95" aria-hidden="true"></div>
+              <div class="content-line w85" aria-hidden="true"></div>
+              <div class="content-line w70" aria-hidden="true"></div>
+              <div class="content-line w90 para-start" aria-hidden="true"></div>
+              <div class="content-line w80" aria-hidden="true"></div>
+              <div class="content-line w65" aria-hidden="true"></div>
+              <span class="sr-only">Placeholder donor story text across two paragraphs, giving background on the donor and the impact of their gift.</span>
+              <div class="content-cta">Linked condition</div>
+              <div class="inline-donate">
+                <p class="chart-panel-label">Inline donate prompt</p>
+                <div class="donate-amounts" role="list" aria-label="Donation amount options">
+                  <div class="amount-chip" role="listitem">£10</div>
+                  <div class="amount-chip selected" role="listitem" aria-label="£25, currently selected">£25</div>
+                  <div class="amount-chip" role="listitem">£50</div>
+                  <div class="amount-chip" role="listitem">Other</div>
+                </div>
+              </div>
+            </div>
+            <div class="site-footer" aria-hidden="true">Page footer</div>
+          </section>
+        </div>
+      </div>
+
+      <!-- PATH B: Lottery players -->
+      <div class="path-column">
+        <p class="path-label">Path B · Lottery players</p>
+
+        <p class="page-summary"><strong>What it does:</strong> a short existing explainer aimed at lottery players, reached directly from the audience selector. This branch is shorter than the main path and doesn't route through the donate widget. <strong>Content:</strong> a headline and brief paragraph on what a lottery entry funds, ending in a link through to lottery sign-up.</p>
+        <div class="browser-chrome" aria-hidden="true">
+          <span class="url-bar">fightforsight.org.uk/lottery/how-it-helps</span>
+        </div>
+        <div class="page-canvas">
+          <section id="step-5" tabindex="-1" class="step" aria-labelledby="step-5-title" aria-describedby="annotation-5">
+            <span class="step-number" aria-hidden="true">5</span>
+            <h2 class="step-label" id="step-5-title">Screen 5 · Lottery players branch</h2>
+            <div class="page-nav" aria-hidden="true">
+              <span>Logo</span>
+              <span>Main navigation</span>
+              <span>Donate</span>
+            </div>
+            <div class="content-body">
+              <div class="content-headline" aria-hidden="true"></div>
+              <div class="content-line w85" aria-hidden="true"></div>
+              <div class="content-line w60" aria-hidden="true"></div>
+              <span class="sr-only">Explainer headline reading "What your lottery entry funds", followed by supporting text.</span>
+            </div>
+            <p class="branch-note">This branch does not pass through the donate widget. It ends at lottery sign-up.</p>
+            <div class="site-footer" aria-hidden="true">Page footer</div>
+          </section>
+        </div>
+
+        <div class="connector" aria-hidden="true"></div>
+
+        <div class="conversion-row" role="group" aria-label="Lottery sign-up conversion point">
+          <div class="conversion-endpoint">
+            LOTTERY
+            <span class="sub">Sign-up conversion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PATH C: In Memory donors -->
+      <div class="path-column">
+        <p class="path-label">Path C · In Memory donors</p>
+
+        <p class="page-summary"><strong>What it does:</strong> an existing explainer for people wanting to give in memory of someone, giving a Protector or Believer donortype a personal, emotional entry point. <strong>Content:</strong> a headline and short paragraph on honouring a loved one's memory, with a link to funded research for their condition before rejoining the main path at the donate widget.</p>
+        <div class="browser-chrome" aria-hidden="true">
+          <span class="url-bar">fightforsight.org.uk/in-memory-giving</span>
+        </div>
+        <div class="page-canvas">
+          <section id="step-6" tabindex="-1" class="step" aria-labelledby="step-6-title" aria-describedby="annotation-6">
+            <span class="step-number" aria-hidden="true">6</span>
+            <h2 class="step-label" id="step-6-title">Screen 6 · In Memory branch</h2>
+            <div class="page-nav" aria-hidden="true">
+              <span>Logo</span>
+              <span>Main navigation</span>
+              <span>Donate</span>
+            </div>
+            <div class="content-body">
+              <div class="content-headline" aria-hidden="true"></div>
+              <div class="content-line w85" aria-hidden="true"></div>
+              <div class="content-line w60" aria-hidden="true"></div>
+              <span class="sr-only">Explainer headline reading "Honour someone's memory by funding research into their condition", with a link through to funded research first.</span>
+            </div>
+            <p class="branch-note">Links to funded research for the chosen condition before joining the main path at the donate widget.</p>
+            <div class="site-footer" aria-hidden="true">Page footer</div>
+          </section>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="connector" aria-hidden="true"><span class="connector-label">paths A and C merge</span></div>
+
+    <p class="page-summary"><strong>What it does:</strong> the donate widget, repurposed from Zone 5 of the landing page and reused here with copy adapted to the condition the visitor has been reading about. <strong>Content:</strong> preset donation amounts, an impact statement that updates per amount and condition (e.g. what £10 funds), and a donate button leading to either a one-off gift or the Vision Circle regular-giving scheme.</p>
+    <div class="browser-chrome" aria-hidden="true">
+      <span class="url-bar">fightforsight.org.uk/donate?context=macular-degeneration</span>
+    </div>
+    <div class="page-canvas">
+      <section id="step-7" tabindex="-1" class="step step-donate" aria-labelledby="step-7-title" aria-describedby="annotation-7">
+        <span class="step-number" aria-hidden="true">7</span>
+        <h2 class="step-label" id="step-7-title">
+          Screen 7 · Contextual donate widget, in context
+          <span class="repurposed-tag">Repurposed</span>
+        </h2>
+        <div class="page-nav" aria-hidden="true">
+          <span>Logo</span>
+          <span>Main navigation</span>
+          <span>Donate</span>
+        </div>
+        <div class="page-lead" aria-hidden="true">
+          <div class="page-heading-bar"></div>
+          <div class="content-line w90"></div>
+          <div class="content-line w70"></div>
+        </div>
+        <span class="sr-only">Placeholder page heading and introductory paragraph for the donate page.</span>
+        <div class="donate-grid">
+          <div>
+            <div class="donate-amounts" role="list" aria-label="Donation amount options">
+              <div class="amount-chip selected" role="listitem" aria-label="£10, currently selected">£10</div>
+              <div class="amount-chip" role="listitem">£25</div>
+              <div class="amount-chip" role="listitem">£50</div>
+              <div class="amount-chip" role="listitem">Other</div>
+            </div>
+            <div class="impact-statement" aria-hidden="true"></div>
+            <div class="impact-statement short" aria-hidden="true"></div>
+            <span class="sr-only">Impact statement reading "£10 funds lab equipment used in macular degeneration research", adapting to the condition the visitor has been reading about.</span>
+          </div>
+          <div class="donate-button">DONATE</div>
+        </div>
+        <div class="site-footer" aria-hidden="true">Page footer</div>
+      </section>
+    </div>
+
+    <div class="connector" aria-hidden="true"></div>
+
+    <div class="conversion-row" role="group" aria-label="Conversion points reached from the donate widget">
+      <div class="conversion-endpoint" id="conversion-donate">
+        DONATE
+        <span class="sub">One-off gift</span>
+      </div>
+      <div class="conversion-endpoint" id="conversion-vision-circle">
+        VISION CIRCLE
+        <span class="sub">Regular giving</span>
+      </div>
+    </div>
+
+   </div>
+  </main>
+
+  <aside class="annotations" aria-labelledby="annotations-heading">
+    <h2 id="annotations-heading" tabindex="-1">Screen annotations</h2>
+    <p>Each screen in the journey is described below. Select a screen name to jump to it.</p>
+
+    <ul class="legend" aria-label="Colour key">
+      <li class="legend-item legend-new">New component</li>
+      <li class="legend-item legend-repurposed">Repurposed component</li>
+      <li class="legend-item legend-existing">Existing content</li>
+      <li class="legend-item legend-conversion">Conversion point</li>
+    </ul>
+
+    <ol class="annotation-list">
+
+      <li class="annotation" id="annotation-1">
+        <h3><a href="#step-1">
+          <span class="annotation-number" aria-hidden="true">1</span>
+          <span class="annotation-title">Landing page, audience selector</span>
+        </a></h3>
+        <p class="annotation-body">
+          The entry point for this journey. A visitor identifies as wanting to understand the impact of their gift and selects the matching card in Zone 2 of the Impact Hub landing page. Both the landing page and this card are already built, see the linked wireframe in the page header. Zone 2's rationale from the strategy deck: improve onward journeys for each audience, ensure each audience sees relevant impact information, and show where money goes regardless of gift size.
+        </p>
+        <span class="annotation-meta meta-existing">Already delivered</span>
+      </li>
+
+      <li class="annotation" id="annotation-2">
+        <h3><a href="#step-2">
+          <span class="annotation-number" aria-hidden="true">2</span>
+          <span class="annotation-title">Condition-filtered impact stories</span>
+        </a></h3>
+        <p class="annotation-body">
+          A new sub-page that lets visitors browse impact stories by eye condition, mirroring the existing A to Z. Makes content relevant to visitors arriving with a specific condition in mind, and gives search engines condition-specific pages to index.
+        </p>
+        <span class="annotation-meta meta-new">New component</span>
+      </li>
+
+      <li class="annotation" id="annotation-3">
+        <h3><a href="#step-3">
+          <span class="annotation-number" aria-hidden="true">3</span>
+          <span class="annotation-title">Scale of VI in the UK</span>
+        </a></h3>
+        <p class="annotation-body">
+          Reuses the existing stats page to show how many people are affected by vision impairment nationally, building the case for the donor story that follows.
+        </p>
+        <span class="annotation-meta meta-existing">Existing content</span>
+      </li>
+
+      <li class="annotation" id="annotation-4">
+        <h3><a href="#step-4">
+          <span class="annotation-number" aria-hidden="true">4</span>
+          <span class="annotation-title">Donor story</span>
+        </a></h3>
+        <p class="annotation-body">
+          A named case study linked to the condition the visitor has been browsing, giving a Protector or Believer donortype a direct, personal connection before they're asked to give.
+        </p>
+        <span class="annotation-meta meta-existing">Existing content</span>
+      </li>
+
+      <li class="annotation" id="annotation-5">
+        <h3><a href="#step-5">
+          <span class="annotation-number" aria-hidden="true">5</span>
+          <span class="annotation-title">Lottery players branch</span>
+        </a></h3>
+        <p class="annotation-body">
+          A short explainer on what a lottery entry funds. This path is shorter than the main one and doesn't route through the donate widget, it ends at lottery sign-up.
+        </p>
+        <span class="annotation-meta meta-existing">Existing content</span>
+      </li>
+
+      <li class="annotation" id="annotation-6">
+        <h3><a href="#step-6">
+          <span class="annotation-number" aria-hidden="true">6</span>
+          <span class="annotation-title">In Memory branch</span>
+        </a></h3>
+        <p class="annotation-body">
+          An explainer on giving in memory of someone, linking through to funded research for their condition first, then rejoining the main path at the donate widget.
+        </p>
+        <span class="annotation-meta meta-existing">Existing content</span>
+      </li>
+
+      <li class="annotation" id="annotation-7">
+        <h3><a href="#step-7">
+          <span class="annotation-number" aria-hidden="true">7</span>
+          <span class="annotation-title">Contextual donate widget</span>
+        </a></h3>
+        <p class="annotation-body">
+          The same repurposed component as Zone 5 of the landing page, reused here with copy that adapts to the condition the visitor has been reading about. Leads to two conversions: a one-off donation or the Vision Circle regular giving scheme. Carries Zone 5's rationale from the strategy deck: show where money goes regardless of amount, and leverage urgent need to donate.
+        </p>
+        <span class="annotation-meta meta-repurposed">Repurposed component</span>
+      </li>
+
+    </ol>
+  </aside>
+
+</div>
+
+<script>
+(function () {
+  function focusTarget(id) {
+    var el = document.getElementById(id);
+    if (el) el.focus({ preventScroll: false });
+  }
+
+  function handleHash() {
+    var id = location.hash.slice(1);
+    if (id) focusTarget(id);
+  }
+
+  window.addEventListener('hashchange', handleHash);
+
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    var id = link.getAttribute('href').slice(1);
+    if (!id) return;
+    requestAnimationFrame(function () { focusTarget(id); });
+  });
+
+  if (location.hash) handleHash();
+})();
+</script>
+
+</body>
+</html>
